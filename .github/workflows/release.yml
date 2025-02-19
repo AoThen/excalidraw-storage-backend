@@ -14,11 +14,11 @@ name: Create and publish a Docker image
 on:
   release:
     types: [published]
-  push:
-    branches:
-      - main
-      - 20-feature-remove-expired-items-for-postgres-adapter
-      - upgrade-deps
+  # push:
+  #   branches:
+  #     - main
+  #     - 20-feature-remove-expired-items-for-postgres-adapter
+  #     - upgrade-deps
 
 env:
   REGISTRY: ghcr.io
