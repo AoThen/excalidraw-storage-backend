@@ -11,24 +11,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: down slim
-        run: |
-          curl -L -o ds.tar.gz https://github.com/slimtoolkit/slim/releases/download/1.40.11/dist_linux.tar.gz
-          tar -xvf ds.tar.gz
-          mv  dist_linux/slim /usr/local/bin/
-          mv  dist_linux/* /usr/local/bin/
+    #   - name: down slim
+    #     run: |
+    #       curl -L -o ds.tar.gz https://github.com/slimtoolkit/slim/releases/download/1.40.11/dist_linux.tar.gz
+    #       tar -xvf ds.tar.gz
+    #       mv  dist_linux/slim /usr/local/bin/
+    #       mv  dist_linux/* /usr/local/bin/
 
       - uses: actions/checkout@v4
       - name: Build the Docker image
         run: |
-          docker build . --file Dockerfile --tag excalidraw-storage-backend:latest
-          docker images
+            docker images
+        
+    #   docker build . --file Dockerfile --tag excalidraw-storage-backend:latest
           
 
-      - name: docker slim
-        run: |
-          slim build excalidraw-storage-backend:latest
-          docker images
+    #   - name: docker slim
+    #     run: |
+    #       slim build excalidraw-storage-backend:latest
+    #       docker images
 
       - name: Login to Docker Hub
         uses: docker/login-action@master
@@ -40,23 +41,23 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+    #   - name: Set up Docker Buildx
+    #     uses: docker/setup-buildx-action@v3
 
-      - name: push docker
-        run: |
-          docker tag excalidraw-storage-backend:latest ${{ secrets.DOCKER_USERNAME }}/excalidraw-storage-backend:latest
-          docker tag excalidraw-storage-backend.slim:latest ${{ secrets.DOCKER_USERNAME }}/excalidraw-storage-backend:slim
-          docker push ${{ secrets.DOCKER_USERNAME }}/excalidraw-storage-backend:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/excalidraw-storage-backend:slim
+    #   - name: push docker
+    #     run: |
+    #       docker tag excalidraw-storage-backend:latest ${{ secrets.DOCKER_USERNAME }}/excalidraw-storage-backend:latest
+    #       docker tag excalidraw-storage-backend.slim:latest ${{ secrets.DOCKER_USERNAME }}/excalidraw-storage-backend:slim
+    #       docker push ${{ secrets.DOCKER_USERNAME }}/excalidraw-storage-backend:latest
+    #       docker push ${{ secrets.DOCKER_USERNAME }}/excalidraw-storage-backend:slim
 
-      # - name: Build and push Docker image
-      #   uses: docker/build-push-action@v6
-      #   with:
-      #     context: .
-      #     file: Dockerfile
-      #     push: true
-      #     tags: ${{ secrets.DOCKER_USERNAME }}/excalidraw-storage-backend:latest
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/excalidraw-storage-backend:latest
 
 
 
